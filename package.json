@@ -1,0 +1,54 @@
+{
+  "name": "local-t2-sw-redux",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "types": "./src/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-webpack-dont-work": "node_modules/.bin/webpack --config webpack.config.js",
+    "build-es6": "node_modules/.bin/tsc",
+    "build-es5": "node_modules/.bin/regenerator libes6 lib"
+  },
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "es6-promise": "^4.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "material-ui": "^0.17.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.3",
+    "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.6.0",
+    "redux-saga": "^0.14.4"
+  },
+  "devDependencies": {
+    "@types/react": "^15.0.21",
+    "awesome-typescript-loader": "^3.1.2",
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-defines": "^3.3.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.3.2",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "clean-webpack-plugin": "^0.1.16",
+    "typescript": "^2.2.2",
+    "webpack": "^2.3.2"
+  },
+  "dependencies": {
+    "es6-promise": "^4.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "material-ui": "^0.17.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.3",
+    "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.6.0",
+    "redux-saga": "^0.14.4",
+    "regenerator": "^0.9.7"
+  }
+}
