@@ -1,6 +1,6 @@
 {
   "name": "local-t2-sw-redux",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "typings": "./index.d.ts",
   "main": "./lib/",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-webpack-dont-work": "node_modules/.bin/webpack --config webpack.config.js",
     "build-es6": "node_modules/.bin/tsc",
-    "build-es5": "node_modules/.bin/regenerator libes6 lib"
+    "build-es5": "node_modules/.bin/regenerator --include-runtime libes6 lib"
   },
   "author": "",
   "license": "ISC",
