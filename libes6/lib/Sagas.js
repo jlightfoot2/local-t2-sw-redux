@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const redux_saga_1 = require("redux-saga");
 const effects_1 = require("redux-saga/effects");
+const actions_1 = require("../actions");
 const fetch = require("isomorphic-fetch");
 var defaultConfig = {
     url: '',
@@ -15,8 +16,6 @@ function makeUpdateCheckCall(url) {
             throw new Error("Bad response from server");
         }
         return response.json();
-    })
-        .catch((e) => {
     });
 }
 function checkUpdates(cfg) {
@@ -24,12 +23,19 @@ function checkUpdates(cfg) {
         while (true) {
             yield effects_1.call(redux_saga_1.delay, cfg.delay);
             if (cfg.url) {
-                yield effects_1.call(makeUpdateCheckCall, cfg.url);
+                effects_1.put(actions_1.updatesCheckStart());
+                try {
+                    let versionData = yield effects_1.call(makeUpdateCheckCall, cfg.url);
+                    console.log(versionData);
+                    yield effects_1.put(actions_1.updatesCheckEnd());
+                }
+                catch (e) {
+                    yield effects_1.put(actions_1.updatesCheckEnd());
+                }
             }
         }
     };
 }
-exports.checkUpdates = checkUpdates;
 // Our watcher Saga
 function* sagaRoot(cfg = defaultConfig) {
     yield effects_1.fork(checkUpdates(cfg));
