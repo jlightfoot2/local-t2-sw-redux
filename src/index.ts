@@ -6,6 +6,7 @@ import UpdateSnackBar from './containers/UpdateSnackBar';
 import AppStatus from './containers/AppStatus';
 
 import {registerPromise} from './lib/serviceWorker';
+import rootSaga from './lib/Sagas';
 const appMiddleware = store => next => {
   return action => {
     let result = next(action);
@@ -19,7 +20,8 @@ export {
   appActions,
   appMiddleware,
   registerPromise,
-  UpdateSnackBar
+  UpdateSnackBar,
+  rootSaga
 };
 
 export default registerPromise;

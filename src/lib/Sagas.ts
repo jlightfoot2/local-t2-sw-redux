@@ -1,6 +1,6 @@
 import { delay } from 'redux-saga';
-import { put, call, fork } from 'redux-saga/effects';
-import {checkForUpdates,updatesCheckEnd} from '../actions';
+import { put, call, fork, select} from 'redux-saga/effects';
+import {checkForUpdates,updatesCheckEnd,updatesCheckStart} from '../actions';
 import * as fetch from 'isomorphic-fetch';
 var defaultConfig = {
   url: '',
@@ -14,18 +14,22 @@ function makeUpdateCheckCall(url) {
             throw new Error("Bad response from server");
           }
           return response.json();
-        })
-        .catch((e) => {
-
         });
 }
 
-export function checkUpdates (cfg) {
+function checkUpdates (cfg) {
   return function* () {
     while (true) {
       yield call(delay, cfg.delay);
       if(cfg.url){
-        yield call(makeUpdateCheckCall,cfg.url);
+         put(updatesCheckStart());
+         try {
+            let versionData = yield call(makeUpdateCheckCall,cfg.url);
+            console.log(versionData);
+            yield put(updatesCheckEnd());
+         } catch (e) {
+            yield put(updatesCheckEnd());
+         }
       }
     }
   }
