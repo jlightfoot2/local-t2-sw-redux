@@ -1,5 +1,5 @@
-import { delay } from 'redux-saga';
-import { put, call, fork, select} from 'redux-saga/effects';
+//import { delay } from 'redux-saga';
+//import { put, call, fork, select} from 'redux-saga/effects';
 import {checkForUpdates,updatesCheckEnd,updatesCheckStart} from '../actions';
 import * as fetch from 'isomorphic-fetch';
 var defaultConfig = {
@@ -16,7 +16,7 @@ function makeUpdateCheckCall(url) {
           return response.json();
         });
 }
-
+/*
 function checkUpdates (cfg) {
   return function* () {
     while (true) {
@@ -40,3 +40,6 @@ export default function* sagaRoot (cfg = defaultConfig) {
 
   yield fork(checkUpdates(cfg));
 }
+
+*/
+export default {}
