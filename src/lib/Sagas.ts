@@ -14,6 +14,9 @@ function makeUpdateCheckCall(url) {
             throw new Error("Bad response from server");
           }
           return response.json();
+        })
+        .catch((e) => {
+
         });
 }
 
@@ -22,7 +25,7 @@ export function checkUpdates (cfg) {
     while (true) {
       yield call(delay, cfg.delay);
       if(cfg.url){
-       yield put(makeUpdateCheckCall(cfg.url));
+        yield call(makeUpdateCheckCall,cfg.url);
       }
     }
   }
