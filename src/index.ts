@@ -6,13 +6,25 @@ import UpdateSnackBar from './containers/UpdateSnackBar';
 import AppStatus from './containers/AppStatus';
 
 import {registerPromise} from './lib/serviceWorker';
-import rootSaga from './lib/Sagas';
-const appMiddleware = store => next => {
-  return action => {
-    let result = next(action);
-    //does nothing for now
-    return result;
-  };
+import {handleUpdateCheck} from './lib/helpers';
+interface MiddlewareConfigInterface {
+  url: string;
+  interval: number;
+}
+const intervalDate = new Date();
+let lastTs = intervalDate.getTime();
+const appMiddleware = (config: MiddlewareConfigInterface)  => {
+
+  return store => next => {
+    return action => {
+      let result = next(action);
+      if((lastTs + config.interval) < intervalDate.getTime()){
+        lastTs = intervalDate.getTime();
+        handleUpdateCheck(store,config);
+      }
+      return result;
+    };
+  }
 };
 
 export {
@@ -20,8 +32,7 @@ export {
   appActions,
   appMiddleware,
   registerPromise,
-  UpdateSnackBar,
-  rootSaga
+  UpdateSnackBar
 };
 
 export default registerPromise;

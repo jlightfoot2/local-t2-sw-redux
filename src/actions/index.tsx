@@ -11,6 +11,18 @@ export const SW_LOG_EVENT = 'T2.SW_LOG_EVENT';
 export const UPDATES_CHECK_REQUEST_START = 'T2.UPDATES_CHECK_REQUEST_START';
 export const UPDATES_CHECK_REQUEST_END = 'T2.UPDATES_CHECK_REQUEST_END';
 
+import * as fetch from 'isomorphic-fetch';
+
+// Our worker Saga: will perform the async increment task
+export const makeUpdateCheckCall = (url) => {
+  return fetch(url)
+        .then(function(response) {
+          if (response.status >= 400) {
+            throw new Error("Bad response from server");
+          }
+          return response.json();
+        });
+}
 
 export const updatesCheckStart = () => {
   return {
@@ -24,7 +36,7 @@ export const updatesCheckEnd = () => {
   };
 };
 
-export const checkForUpdates = () => {
+export const checkForUpdates = (url: string) => {
   var onlineId = 1;
 
   return function (dispatch, getState) {
@@ -34,11 +46,18 @@ export const checkForUpdates = () => {
       if (onlineId && !navigator.onLine) { //we are not online so no point in checking for updates
         onlineId = 0;
         makeRequest = false;
-        dispatch(updatesCheckEnd());
+        
       }
     }
     if (makeRequest) {
-       
+      try{
+        makeUpdateCheckCall(url).then((versionInfo) => {
+          console.log(versionInfo);
+        });
+      } catch(e) {
+        swLogEvent('update check file not available',e);
+      }
+      dispatch(updatesCheckEnd());
     }
   };
 };
