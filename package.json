@@ -1,6 +1,6 @@
 {
   "name": "local-t2-sw-redux",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "",
   "typings": "./index.d.ts",
   "main": "./lib/",
