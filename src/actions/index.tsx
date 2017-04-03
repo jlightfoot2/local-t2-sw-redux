@@ -60,11 +60,11 @@ export const checkForUpdates = (url: string) => {
     if (makeRequest) {
       try{
         makeUpdateCheckCall(url).then((versionInfo) => {
-          console.log(versionInfo);
+         
           const currentVersion = getState().app.version;
           if(versionInfo.version && versionInfo.version != currentVersion){
 
-            updateVersion(versionInfo.version);
+            dispatch(updateVersion(versionInfo.version));
             if(currentVersion){ //if current version is not null (meaning we didn't just hard refresh) then we request
                   dispatch(updatesAvailable(true,'new content'));
                   dispatch(updateUserNotified(false));
