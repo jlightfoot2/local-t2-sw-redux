@@ -64,11 +64,14 @@ export const checkForUpdates = (url: string) => {
           const currentVersion = getState().app.version;
           if(versionInfo.version && versionInfo.version != currentVersion){
 
-            dispatch(updateVersion(versionInfo.version));
+            console.log(versionInfo.version, currentVersion);
             if(currentVersion){ //if current version is not null (meaning we didn't just hard refresh) then we request
                   dispatch(updatesAvailable(true,'new content'));
                   dispatch(updateUserNotified(false));
             }
+          }
+          if(versionInfo.version){
+            dispatch(updateVersion(versionInfo.version));
           }
         }).catch(function(e){
           dispatch(swLogEvent('update check file not available 2',e));
