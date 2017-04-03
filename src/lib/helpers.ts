@@ -3,5 +3,5 @@
 import {checkForUpdates,updatesCheckEnd,updatesCheckStart} from '../actions';
 
 export const handleUpdateCheck = (store,config) => {
-
+   store.dispatch(checkForUpdates(config));
 }
