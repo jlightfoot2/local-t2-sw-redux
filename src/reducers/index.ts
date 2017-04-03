@@ -2,7 +2,8 @@ import {
   UPDATES_AVAILABLE,
   UPDATES_USER_NOTIFIED,
   CACHE_STATUS_CHANGE,
-  SW_LOG_EVENT
+  SW_LOG_EVENT,
+  UPDATES_SET_VERSION
 } from '../actions';
 
 const logMax = 30;
@@ -28,11 +29,13 @@ const defaultApp = {
     userNotified: false
   },
   log: [firstLog],
-  version: '0.0.1'
+  version: null
 };
 
 export const app = (state = defaultApp, action) => {
   switch (action.type) {
+    case UPDATES_SET_VERSION:
+      return {...state, version: action.version};
     case UPDATES_USER_NOTIFIED:
       return {...state, updates: {...state.updates, userNotified: action.notified}};
     case CACHE_STATUS_CHANGE:

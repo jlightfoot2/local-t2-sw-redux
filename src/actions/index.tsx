@@ -10,6 +10,7 @@ export const SW_LOG_EVENT = 'T2.SW_LOG_EVENT';
 
 export const UPDATES_CHECK_REQUEST_START = 'T2.UPDATES_CHECK_REQUEST_START';
 export const UPDATES_CHECK_REQUEST_END = 'T2.UPDATES_CHECK_REQUEST_END';
+export const UPDATES_SET_VERSION = 'T2.UPDATES_SET_VERSION';
 
 import * as fetch from 'isomorphic-fetch';
 
@@ -27,6 +28,13 @@ export const makeUpdateCheckCall = (url) => {
 export const updatesCheckStart = () => {
   return {
     type: UPDATES_CHECK_REQUEST_START
+  };
+};
+
+export const updateVersion = (version: string) => {
+  return {
+    type: UPDATES_SET_VERSION,
+    version
   };
 };
 
@@ -53,6 +61,15 @@ export const checkForUpdates = (url: string) => {
       try{
         makeUpdateCheckCall(url).then((versionInfo) => {
           console.log(versionInfo);
+          const currentVersion = getState().app.version;
+          if(versionInfo.version && versionInfo.version != currentVersion){
+
+            updateVersion(versionInfo.version);
+            if(currentVersion){ //if current version is not null (meaning we didn't just hard refresh) then we request
+                  dispatch(updatesAvailable(true,'new content'));
+                  dispatch(updateUserNotified(false));
+            }
+          }
         }).catch(function(e){
           dispatch(swLogEvent('update check file not available 2',e));
         });
