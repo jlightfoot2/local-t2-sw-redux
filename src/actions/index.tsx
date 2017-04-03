@@ -53,9 +53,11 @@ export const checkForUpdates = (url: string) => {
       try{
         makeUpdateCheckCall(url).then((versionInfo) => {
           console.log(versionInfo);
+        }).catch(function(e){
+          dispatch(swLogEvent('update check file not available 2',e));
         });
       } catch(e) {
-        swLogEvent('update check file not available',e);
+        dispatch(swLogEvent('update check file not available 1',e));
       }
       dispatch(updatesCheckEnd());
     }

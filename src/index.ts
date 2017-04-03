@@ -11,15 +11,18 @@ interface MiddlewareConfigInterface {
   url: string;
   interval: number;
 }
-const intervalDate = new Date();
-let lastTs = intervalDate.getTime();
+function newDateTs(){
+    const intervalDate = new Date();
+    return intervalDate.getTime();
+}
+var lastTs = newDateTs();
 const appMiddleware = (config: MiddlewareConfigInterface)  => {
 
   return store => next => {
     return action => {
       let result = next(action);
-      if((lastTs + config.interval) < intervalDate.getTime()){
-        lastTs = intervalDate.getTime();
+      if((lastTs + config.interval) < newDateTs()){
+        lastTs = newDateTs();
         handleUpdateCheck(store,config);
       }
       return result;
